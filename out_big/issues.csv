@@ -1,0 +1,15 @@
+type,columns,count,examples
+outliers,['order_amount'],6,"['99999.99', '5000.0', '5000.0']"
+type_mismatch,['age'],4,"['nan', 'abc', 'nan']"
+regex_mismatch,['email'],4,"['jane_doe@gmail', 'marie@@gmail.com', 'sarah@company']"
+not_allowed,['country'],3,"['UK', 'UK', 'XX']"
+missing_values,['age'],2,"['nan', 'nan']"
+required_missing,['age'],2,"['nan', 'nan']"
+missing_values,['last_order_date'],1,['nan']
+missing_columns,['id'],1,[]
+below_min,['age'],1,['-5']
+missing_rule_column,['id'],1,[]
+missing_rule_column,['start_date'],1,[]
+missing_rule_column,['end_date'],1,[]
+missing_rule_column,['amount'],1,[]
+row_rule_error,[],0,['Invalid token in expression']

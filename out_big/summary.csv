@@ -1,0 +1,10 @@
+column,inferred_type,missing_count,missing_pct,invalid_count,invalid_pct,outlier_count,outlier_pct,duplicate_rows_count,duplicate_rows_pct,consistency_invalid_count,consistency_invalid_pct,score_total
+customer_id,int,0,0.0,0,0.0,0.0,0.0,,,,,
+age,int,2,0.06666666666666667,5,0.16666666666666666,,,,,,,
+email,string,0,0.0,4,0.13333333333333333,,,,,,,
+country,string,0,0.0,3,0.1,,,,,,,
+signup_date,date,0,0.0,0,0.0,,,,,,,
+last_order_date,date,1,0.03333333333333333,0,0.0,,,,,,,
+order_amount,float,0,0.0,0,0.0,6.0,0.2,,,,,
+is_active,int,0,0.0,0,0.0,,,,,,,
+__global__,,3,0.0125,12,0.05,6.0,0.1,0.0,0.0,0.0,0.0,97.4375

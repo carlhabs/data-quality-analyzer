@@ -69,7 +69,7 @@ def generate_plots(df: pd.DataFrame, out_dir: Path, logger: logging.Logger) -> P
     plt.savefig(missing_path)
     plt.close()
 
-    numeric_cols = [c for c in df.columns if _safe_numeric_series(df[c]).notna().any()]
+    numeric_cols = [c for c in df.columns if _safe_numeric_series(df[c]).notna().any() and df[c].dtype not in ['bool', 'object']]
     numeric_path: Path | None = None
     if numeric_cols:
         plt.figure(figsize=(10, 5))

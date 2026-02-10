@@ -15,6 +15,8 @@ def compute_outliers(df: pd.DataFrame) -> tuple[dict[str, Any], list[dict[str, A
     total_outliers = 0
 
     for col in df.columns:
+        if df[col].dtype == 'bool' or not pd.api.types.is_numeric_dtype(df[col]):
+            continue
         series = pd.to_numeric(df[col], errors="coerce")
         if series.notna().sum() == 0:
             continue
