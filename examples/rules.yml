@@ -1,0 +1,30 @@
+columns:
+  id:
+    type: int
+    required: true
+  age:
+    type: int
+    required: true
+    min: 0
+  email:
+    type: string
+    required: true
+    regex: "^[^@]+@[^@]+\\.[^@]+$"
+  start_date:
+    type: date
+    required: true
+  end_date:
+    type: date
+    required: true
+    not_future: true
+  country:
+    type: string
+    allowed: [FR, DE, US, ES]
+  amount:
+    type: float
+    min: 0
+unique_keys:
+  - [id]
+row_rules:
+  - name: "start_before_end"
+    expr: "start_date <= end_date"

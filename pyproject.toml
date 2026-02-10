@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-quality-analyzer"
+version = "0.1.0"
+description = "Data quality analyzer with profiling, rules, scoring, and reporting."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Data Quality Analyzer" }
+]
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24",
+  "matplotlib>=3.7",
+  "PyYAML>=6.0",
+  "Jinja2>=3.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4",
+  "pytest-cov>=4.1",
+  "ruff>=0.4"
+]
+
+[project.scripts]
+dqa = "dqa.cli:main"
+
+[tool.setuptools]
+packages = ["dqa", "dqa.checks", "dqa.reporting"]
+
+[tool.setuptools.package-data]
+"dqa.reporting" = ["templates/*.j2"]
+
+[tool.ruff]
+line-length = 100

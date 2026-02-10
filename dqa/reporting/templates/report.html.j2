@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Data Quality Report</title>
+  <style>
+    body { font-family: "Georgia", "Times New Roman", serif; margin: 24px; color: #1f1f1f; }
+    h1, h2 { color: #2b2b2b; }
+    .score { font-size: 28px; font-weight: bold; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 16px; }
+    th, td { border: 1px solid #cfcfcf; padding: 6px 8px; text-align: left; }
+    th { background: #f5f1e9; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ddd; padding: 12px; border-radius: 6px; background: #faf7f1; }
+    .muted { color: #666; font-size: 0.9em; }
+    .plot { max-width: 100%; border: 1px solid #ddd; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Data Quality Report</h1>
+  <div class="grid">
+    <div class="card">
+      <div class="score">Global score: {{ scores.total | round(2) }}</div>
+      <div class="muted">Generated at {{ metadata.generated_at }}</div>
+    </div>
+    <div class="card">
+      <strong>Dataset</strong><br>
+      Rows: {{ metadata.row_count }}<br>
+      Columns: {{ metadata.column_count }}<br>
+      Memory: {{ metadata.memory_mb }} MB
+    </div>
+    <div class="card">
+      <strong>Config</strong><br>
+      Rules: {{ metadata.rules_path or "none" }}<br>
+      ID columns: {{ metadata.id_cols or "none" }}
+    </div>
+  </div>
+
+  <h2>Scores</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Completeness</td><td>{{ scores.completeness | round(2) }}</td></tr>
+      <tr><td>Validity</td><td>{{ scores.validity | round(2) }}</td></tr>
+      <tr><td>Uniqueness</td><td>{{ scores.uniqueness | round(2) }}</td></tr>
+      <tr><td>Consistency</td><td>{{ scores.consistency | round(2) }}</td></tr>
+      <tr><td>Outliers</td><td>{{ scores.outliers | round(2) }}</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Inferred Types</h2>
+  <table>
+    <thead>
+      <tr><th>Column</th><th>Type</th></tr>
+    </thead>
+    <tbody>
+    {% for col, dtype in inferred_types.items() %}
+      <tr><td>{{ col }}</td><td>{{ dtype }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Completeness by Column</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Column</th>
+        <th>Missing Count</th>
+        <th>Missing %</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for row in completeness_table %}
+      <tr>
+        <td>{{ row.column }}</td>
+        <td>{{ row.missing_count }}</td>
+        <td>{{ (row.missing_pct * 100) | round(2) }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Top Issues</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Columns</th>
+        <th>Count</th>
+        <th>Examples</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for issue in issues %}
+      <tr>
+        <td>{{ issue.type }}</td>
+        <td>{{ issue.columns | join(', ') }}</td>
+        <td>{{ issue.count }}</td>
+        <td>{{ issue.examples | join(', ') }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Plots</h2>
+  {% for plot in plots %}
+    <img class="plot" src="{{ plot }}" alt="plot">
+  {% endfor %}
+</body>
+</html>
